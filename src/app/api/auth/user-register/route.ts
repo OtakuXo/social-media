@@ -40,7 +40,7 @@ export const POST = async (req: NextRequest) => {
       msg: "successful user created",
     });
   } catch (err) {
-    console.log(err);
+    console.log("connection string error",err);
     return NextResponse.json({
       msg: "email address alredy exsists",
     });

@@ -5,7 +5,7 @@ export const GET = async (
    _req: Request,
    { params }: { params: Promise<{ user_id: string }> },
 ) => {
-   console.log(params);
+   // console.log(params);
    const id = (await params).user_id;
    try {
       const userFriends = await prisma.user.findUnique({

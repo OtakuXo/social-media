@@ -12,8 +12,8 @@ return (
       <Image
          width={0}
          height={0}
-         src={image.image || "/p.jpeg"}
-         alt="post image"
+         src={image.image || "/p.png"}
+         alt="hello"
          sizes="(max-width: 768px) 100vw,
       (max-width: 1200px) 50vw,
       33vw"

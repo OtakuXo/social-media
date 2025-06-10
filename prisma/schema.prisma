@@ -15,6 +15,7 @@ model User {
   emailVerified  DateTime?
   image          String?
   avatar         String?
+  profileAvatar  String?
   accounts       Account[]
   post           Post[]
   likedPosts     Like[]
@@ -80,7 +81,7 @@ model Post {
 
 model PostContent {
   id     String @id @default(auto()) @map("_id") @db.ObjectId
-  image  String @unique
+  image  String 
   post   Post?  @relation(fields: [postId], references: [id])
   postId String @unique @db.ObjectId
 }

@@ -12,6 +12,7 @@ export const POST = async (req: Request) => {
          msg: "user In CardId or userId is missing",
       });
    }
+   console.log(body)
 
    try {
       await prisma.userfriendrequest.deleteMany({
@@ -22,6 +23,24 @@ export const POST = async (req: Request) => {
             ]
          },
       });
+
+      const friendList = await prisma.userfriends.findMany({
+         where: {
+            AND: [
+               { userId: body.data.userId },
+               { friendId: body.data.userInCardId },
+            ]
+         }
+      })
+      if (friendList.length > 0) {
+         return NextResponse.json(
+            {
+               msg: "you are alredy friend with this perosn",
+            },
+            { status: 200 },
+         );
+      }
+
       await prisma.userfriends.create({
          data: {
             userId: body.data.userId,
@@ -29,8 +48,15 @@ export const POST = async (req: Request) => {
             friendName: body.data.userInCardName,
          }
       })
+      await prisma.userfriends.create({
+         data: {
+            userId: body.data.userInCardId,
+            friendId: body.data.userId,
+            friendName: body.data.userName,
+         }
+      })
       return NextResponse.json({
-         msg: "has been removed from your friend list",
+         msg: "has been added from your friend list",
       });
    } catch (err) {
       console.log("some internal error");

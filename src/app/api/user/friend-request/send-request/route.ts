@@ -14,6 +14,41 @@ export const POST = async (req: Request) => {
       // user is sending request
       // we are recording user both name and id so
       // it will be easy to display them in userCard 
+
+      const friendList = await prisma.userfriends.findMany({
+         where: {
+            AND: [
+               { userId: body.data.userId },
+               { friendId: body.data.userInCardId },
+            ]
+         }
+      })
+      if (friendList.length > 0) {
+         return NextResponse.json(
+            {
+               msg: "you are alredy friend with this perosn",
+            },
+            { status: 200 },
+         );
+      }
+      const friendRequestList = await prisma.userfriendrequest.findMany({
+         where: {
+            AND: [
+               { senderId: body.data.userId },
+               { userId: body.data.userInCardId }
+            ]
+         }
+      })
+      console.log(friendRequestList)
+      if (friendRequestList.length > 0) {
+         return NextResponse.json(
+            {
+               msg: "your friend requrst is alredy pending",
+            },
+            { status: 200 },
+         );
+      }
+
       await prisma.userfriendrequest.create({
          data: {
             senderId: body.data.userId,

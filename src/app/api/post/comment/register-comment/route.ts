@@ -1,4 +1,4 @@
-import prisma from "@/lib/db";
+import prisma from "@/lib/db"; 
 
 export const POST = async (req: Request) => {
   const body = await req.json();
@@ -11,21 +11,21 @@ export const POST = async (req: Request) => {
   }
 
   try {
-    const getUserComments = await prisma.usercomments.findUnique({
+    const userComments = await prisma.usercomments.findUnique({
       where: {
         userId: body.data.userId,
       },
     });
-
-    const checkIfUserHasAlredyCommented =
-      getUserComments?.commentedPostId.filter((i) => i === body.data.postId);
-
-    console.log(checkIfUserHasAlredyCommented);
-    if (!checkIfUserHasAlredyCommented) {
+    
+    if (!userComments) {
       return Response.json({
-        msg: "internel error",
+        msg: "user comment record not found",
       });
     }
+
+    console.log(userComments)
+    const checkIfUserHasAlredyCommented =
+      userComments?.commentedPostId.filter((i) => i === body.data.postId);
 
     if (checkIfUserHasAlredyCommented[0]) {
       return Response.json({
@@ -33,14 +33,14 @@ export const POST = async (req: Request) => {
       });
     }
 
-    const comment = await prisma.comment.create({
+    await prisma.comment.create({
       data: {
         authorId: body.data.userId,
         postId: body.data.postId,
         comment: body.data.comment,
       },
     });
-    console.log(comment);
+
     await prisma.usercomments.update({
       where: {
         userId: body.data.userId,
@@ -55,7 +55,6 @@ export const POST = async (req: Request) => {
       msg: "successfully comment registerd",
     });
   } catch (err) {
-    // console.log("regeser comment error");
     console.log(err);
     return Response.json({
       msg: "internel server error",

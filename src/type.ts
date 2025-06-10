@@ -1,3 +1,4 @@
+// post
 export type TPost = {
   id: string;
   createdAt: Date;
@@ -9,11 +10,6 @@ export type TPost = {
   authorId: string;
 };
 
-export type TUser = {
-  name: string;
-  id: string;
-};
-
 export type TLikeDislike = {
   postId: string;
   userId: string;
@@ -23,6 +19,25 @@ export type TLikeDislike = {
 
 export type TPostId = {
   postId: string;
+};
+
+export type TComment = {
+   id: string;
+   authorId: string;
+   comment: string;
+   postId: string;
+}
+// post end
+  
+// user
+export type TUser = {
+  name: string;
+  id: string;
+};
+
+export type TFriend = {
+   friendId: string;
+   friendName: string;
 };
 
 export type TUserId = {
@@ -40,6 +55,23 @@ export type TAvatar = {
   height: string;
 };
 
+export type TUserCardBtn = {
+  text: string;
+  url: string;
+};
+
+export interface TUserCard extends TUser {
+  btns: TUserCardBtn[];
+}
+export type TUserFriend = {
+  userInCardId: string;
+  userId: string;
+  userName: string;
+  userInCardName: string;
+};
+// user end
+
+// components
 export interface TButton {
   active?: boolean;
   btnText: string;
@@ -52,16 +84,7 @@ export type TRequrstHandlerBtn = {
   url: string;
 };
 
-export type TUserCardBtn = {
-  text: string;
-  url: string;
-};
-export interface TUserCard extends TUser {
-  btns: TUserCardBtn[];
+export type TOption = {
+   src: string;
+   text: string;
 }
-export type TUserFriend = {
-  userInCardId: string;
-  userId: string;
-  userName: string;
-  userInCardName: string;
-};

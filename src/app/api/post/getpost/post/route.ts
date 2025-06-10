@@ -13,14 +13,7 @@ export const GET = async () => {
   }
 
   try {
-    const userFriends = await prisma.userfriends.findMany({
-      where: {
-        userId: id,
-      },
-    });
-    // console.log("consoled in getpost/post", userFriends);
-    console.log(userFriends);
-    const post = await prisma.post.findMany();
+    const post = await prisma.post.findMany({take:5});
     return NextResponse.json({
       post,
     });

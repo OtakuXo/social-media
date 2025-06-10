@@ -4,7 +4,7 @@ export const POST = async (req: Request) => {
   const body = await req.json();
   console.log(body);
 
-  if (!body.data.image || !body.data.id.userId) {
+  if (!body.data.image|| !body.data.profileImage || !body.data.id.userId) {
     return Response.json({ msg: "Image or userId is missing" });
   }
 
@@ -15,6 +15,7 @@ export const POST = async (req: Request) => {
       },
       data: {
         avatar: body.data.image,
+        profileAvatar: body.data.profileImage
       },
     });
 
